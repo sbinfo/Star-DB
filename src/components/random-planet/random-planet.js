@@ -1,28 +1,56 @@
 import React, {Component} from "react";
+import SwapiService from '../../services/swapi-service';
 import './random-planet.css';
 
 
 export default class RandomPlanet extends Component {
+    swapi_service = new SwapiService();
+
+    constructor() {
+        super()
+
+        this.state = {
+            planet:  {}
+        }
+
+        this.updatePlanet();
+    }
+
+    onPlanetLoaded = (planet) => {
+        this.setState({ planet })
+    }
+
+    updatePlanet() {
+        const id = Math.floor(Math.random() * 20) + 2;
+
+        this.swapi_service.getPlanet(id)
+            .then( this.onPlanetLoaded );
+    }
+
 
     render() {
+    
+        const { planet: {id, name, population, rotationPeriod, diameter} } = this.state
+
+
         return (
             <div className="random-planet jumbotron rounded">
                 <img className="planet-image"
-                     src="https://starwars-visualguide.com/assets/img/planets/5.jpg" />
+                     src={`https://starwars-visualguide.com/assets/img/planets/${ id }.jpg`} />
                 <div>
-                    <h4>Planet Name</h4>
+                    <h4>{ name }</h4>
                     <ul className="list-group list-group-flush">
                         <li className="list-group-item">
-                            <span className="term">Population</span>
-                            <span>123124</span>
+                            <span className="term">Population:</span>
+                            <span>{ population }</span>
                         </li>
                         <li className="list-group-item">
-                            <span className="term">Rotation Period</span>
-                            <span>43</span>
+                            <span className="term">Rotation period:</span>
+                            <span>{ rotationPeriod }</span>
                         </li>
                         <li className="list-group-item">
-                            <span className="term">Diameter</span>
-                            <span>100</span>
+                            <span className="term">Diameter:</span>
+                            <span>{ diameter }</span>
                         </li>
                     </ul>
                 </div>
