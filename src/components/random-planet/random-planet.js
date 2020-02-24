@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import SwapiService from '../../services/swapi-service';
 import './random-planet.css';
 import Spinner from "../spinner";
+import ErrorIndicator from "../error-indicator";
 
 
 export default class RandomPlanet extends Component {
@@ -12,7 +13,8 @@ export default class RandomPlanet extends Component {
 
         this.state = {
             planet: {},
-            loading: true
+            loading: true,
+            error: false,
         }
 
         this.updatePlanet();
@@ -25,26 +27,38 @@ export default class RandomPlanet extends Component {
         })
     }
 
-    updatePlanet() {
-        const id = Math.floor(Math.random() * 20) + 2;
+    onError = (err) => {
+        this.setState({
+            error: true,
+            loading: false
+        })
+    }
 
-        this.swapi_service.getPlanet(id)
-            .then(this.onPlanetLoaded);
+    updatePlanet() {
+        const id = 1222 //Math.floor(Math.random() * 20) + 2;
+
+        this.swapi_service
+            .getPlanet(id)
+            .then(this.onPlanetLoaded)
+            .catch(this.onError);
     }
 
 
     render() {
 
-        const { planet, loading } = this.state
+        const { planet, loading, error } = this.state
 
+        const hasData = !(loading || error);
 
+        const errorMessage = error ? <ErrorIndicator /> : null;
         const loadingBlock = loading ? <Spinner /> : null
-        const planetBlock = !loading ? <PlanetView planet={ planet } /> : null
+        const planetBlock = hasData ? <PlanetView planet={ planet } /> : null
 
         return (
             <div className="random-planet jumbotron rounded">
                { loadingBlock }
                { planetBlock }
+               { errorMessage }
             </div>
 
         );
@@ -58,7 +72,7 @@ const PlanetView = ({ planet }) => {
     return (
         <React.Fragment>
             <img className="planet-image"
-                src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`} />
+                src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`} alt="" />
             <div>
                 <h4>{name}</h4>
                 <ul className="list-group list-group-flush">
