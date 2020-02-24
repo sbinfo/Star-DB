@@ -3,22 +3,9 @@ import './spinner.css'
 
 const Spinner = () => {
     return (
-        <div class="loadingio-spinner-wedges-0d69ixfz9m1t">
-            <div class="ldio-z7n7fkmzgrq">
-                <div>
-                    <div>
-                        <div></div>
-                    </div>
-                    <div>
-                        <div></div>
-                    </div>
-                    <div>
-                        <div></div>
-                    </div>
-                    <div>
-                        <div></div>
-                    </div>
-                </div>
+        <div class="loadingio-spinner-eclipse-qqg0k0wooxn">
+            <div class="ldio-eqhm6pchp2q">
+                <div></div>
             </div>
         </div>
     )
