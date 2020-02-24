@@ -3,12 +3,22 @@ import './spinner.css'
 
 const Spinner = () => {
     return (
-        <div class="loadingio-spinner-double-ring-8yjhz9j21lb">
-            <div class="ldio-epqghvxc2al">
-                <div></div>
-                <div></div>
-                <div><div></div></div>
-                <div><div></div></div>
+        <div class="loadingio-spinner-wedges-0d69ixfz9m1t">
+            <div class="ldio-z7n7fkmzgrq">
+                <div>
+                    <div>
+                        <div></div>
+                    </div>
+                    <div>
+                        <div></div>
+                    </div>
+                    <div>
+                        <div></div>
+                    </div>
+                    <div>
+                        <div></div>
+                    </div>
+                </div>
             </div>
         </div>
     )
