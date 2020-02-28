@@ -1,36 +1,42 @@
 import React, { Component } from 'react';
-
 import Header from '../header';
 import RandomPlanet from '../random-planet';
-import ItemList from '../item-list';
-import PersonDetails from '../person-details';
 
 import './app.css';
+import PeoplePage from '../people-page/people-page';
+import ErrorIndicator from '../error-indicator';
+import ErrorGenerator from '../error-generator/error-generator';
+import SwapiService from '../../services/swapi-service';
+import ItemDetails from '../item-details';
+import Row from '../row';
 
 class App extends Component {
+
+
 
     constructor() {
         super();
 
+        this.swapiService = new SwapiService();
+
         this.state = {
             showRandomPlanet: true,
-            selectedPerson: 1,
+            hasError: false
         }
     }
 
-    onRandPlanetBlock = () => {
-        this.setState( () => {
-            const { showRandomPlanet } = this.state;
-            return { 
-                showRandomPlanet: !showRandomPlanet
-             }
+    componentDidCatch() {
+        this.setState({
+            hasError: true
         })
     }
 
-    onPersonSelected = (id) => {
-        this.setState({
-            selectedPerson: id,
-            loadingPerson: true
+    onRandPlanetBlock = () => {
+        this.setState(() => {
+            const { showRandomPlanet } = this.state;
+            return {
+                showRandomPlanet: !showRandomPlanet
+            }
         })
     }
 
@@ -38,24 +44,36 @@ class App extends Component {
 
         const randPlanet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
 
+        if (this.state.hasError) {
+            return <ErrorIndicator />
+        }
+
+        const personDetails = (
+            <ItemDetails itemId={11} 
+                getData={ this.swapiService.getPerson } 
+                getImageUrl={ this.swapiService.getPersonImage }
+            />
+        );
+
+        const starshipDetails = (
+            <ItemDetails itemId={5} 
+                getData={ this.swapiService.getStarship }
+                getImageUrl={ this.swapiService.getStarshipImage } 
+            />
+        );
+
         return (
             <div>
                 <Header />
-                {/* <RandomPlanet /> */}
-                { randPlanet }
-                <button type="button" onClick={ this.onRandPlanetBlock } >Toggle random planet</button>
+                
+                <Row left={personDetails} right={starshipDetails} />
+                
+                {/* {randPlanet}
+                <button type="button" onClick={this.onRandPlanetBlock} >Toggle random planet</button>
+                <ErrorGenerator /> */}
 
-
-                <div className="row mb2">
-                    <div className="col-md-6">
-                        <ItemList onItemSelected={ this.onPersonSelected } />
-                    </div>
-                    <div className="col-md-6">
-                        <PersonDetails 
-                            personId={ this.state.selectedPerson }
-                        />
-                    </div>
-                </div>
+                {/* <PeoplePage /> */}
+                
             </div>
         );
     }

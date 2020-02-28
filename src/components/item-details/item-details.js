@@ -1,14 +1,16 @@
 import React, {Component} from "react";
-import './person-details.css';
+import './item-details.css';
 import SwapiService from "../../services/swapi-service";
 import Spinner from "../spinner";
+import ErrorGenerator from "../error-generator/error-generator";
 
 export default class PersonDetails extends Component {
 
     swapiService = new SwapiService();
 
     state = {
-        person: null,
+        item: null,
+        image: null,
         loading: true
     };
 
@@ -17,28 +19,30 @@ export default class PersonDetails extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.personId !== prevProps.personId) {
+        if(this.props.id !== prevProps.id) {
             this.setState({ loading: true })
             this.updatePerson(); 
         }
     }
 
     updatePerson() {
-        const { personId } = this.props;
-        if(!personId) {
+        const { itemId, getData, getImageUrl } = this.props;
+        if(!itemId) {
             return;
         }
     
-        this.swapiService
-            .getPerson(personId)
-            .then((person) => {
-                this.setState({ person, loading: false })
+        getData(itemId)
+            .then((item) => {
+                this.setState({ item, 
+                    loading: false,
+                    image: getImageUrl(item),
+                })
             })
     }
 
     render() {
 
-        if(!this.state.person) {
+        if(!this.state.item) {
             return null;
         }
 
@@ -46,12 +50,12 @@ export default class PersonDetails extends Component {
             return <Spinner />
         }
 
-        const { id, name, gender, birthYear, eyeColor, hairColor, mass, height } = this.state.person;
+        const { id, name, gender, birthYear, eyeColor, hairColor, mass, height } = this.state.item;
 
         return (
             <div className="person-details card">
                 <img className="person-image"
-                     src={`https://starwars-visualguide.com/assets/img/characters/${ id }.jpg`} alt="character" />
+                     src={this.state.image} alt="character" />
 
                 <div className="card-body">
                     <h4>{ name } - id: { this.props.personId }</h4>
@@ -82,6 +86,8 @@ export default class PersonDetails extends Component {
                         </li>
                     </ul>
                 </div>
+
+                <ErrorGenerator />
             </div>
         )
     }
