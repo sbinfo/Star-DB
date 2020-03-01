@@ -40,13 +40,13 @@ class PeoplePage extends Component {
             </ItemList>
         );
 
-        const personDetails = (
-            <ItemDetails id={this.state.selectedPerson} />
-        );
+        // const personDetails = (
+        //     <ItemDetails id={this.state.selectedPerson} />
+        // );
 
         return (
             <ErrorBoundry>
-                <Row left={itemList} right={personDetails} />
+                <Row left={itemList} right="test" />
             </ErrorBoundry>
         )
     }
