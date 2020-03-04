@@ -8,7 +8,7 @@ const Record = ({ item, field, label }) => {
     return (
         <li className="list-group-item">
             <span className="term">{label}: </span>
-            <span>{ item[field] }</span>
+            <span>{item[field]}</span>
         </li>
     );
 }
@@ -17,7 +17,9 @@ export {
     Record
 };
 
-export default class ItemDetails extends Component {
+
+
+class ItemDetails extends Component {
 
     swapiService = new SwapiService();
 
@@ -29,13 +31,6 @@ export default class ItemDetails extends Component {
 
     componentDidMount() {
         this.updatePerson();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.id !== prevProps.id) {
-            this.setState({ loading: true })
-            this.updatePerson();
-        }
     }
 
     updatePerson() {
@@ -55,6 +50,14 @@ export default class ItemDetails extends Component {
             })
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.id !== prevProps.id) {
+            this.setState({ loading: true })
+            this.updatePerson();
+        }
+    }
+
+
     render() {
 
         if (!this.state.item) {
@@ -64,10 +67,11 @@ export default class ItemDetails extends Component {
         if (this.state.loading) {
             return <Spinner />
         }
-
+        
         const { item } = this.state;
         const { name } = item;
-    
+        
+
         return (
             <div className="person-details card">
                 <img className="person-image"
@@ -77,36 +81,12 @@ export default class ItemDetails extends Component {
                     <h4>{name} - id: {this.props.itemId}</h4>
                     <ul className="list-group list-group-flush">
 
-                        { 
+                        {
                             React.Children.map(this.props.children, (child) => {
                                 return React.cloneElement(child, { item });
                             })
-                         }
+                        }
 
-                        {/* <li className="list-group-item">
-                            <span className="term">Gender: </span>
-                            <span>{gender}</span>
-                        </li>
-                        <li className="list-group-item">
-                            <span className="term">Birth Year: </span>
-                            <span>{birthYear}</span>
-                        </li>
-                        <li className="list-group-item">
-                            <span className="term">Height: </span>
-                            <span>{height}</span>
-                        </li>
-                        <li className="list-group-item">
-                            <span className="term">Mass: </span>
-                            <span>{mass}</span>
-                        </li>
-                        <li className="list-group-item">
-                            <span className="term">Hair color: </span>
-                            <span>{hairColor}</span>
-                        </li>
-                        <li className="list-group-item">
-                            <span className="term">Eye Color: </span>
-                            <span>{eyeColor}</span>
-                        </li> */}
                     </ul>
                 </div>
 
@@ -115,3 +95,6 @@ export default class ItemDetails extends Component {
         )
     }
 }
+
+
+export default ItemDetails;

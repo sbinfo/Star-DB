@@ -57,7 +57,6 @@ export default class SwapiService {
 
     _extractId = (item) => {
         const idRegEx = /\/([0-9]+)*\/$/;
-        console.log(item.url.match(idRegEx))
         return item.url.match(idRegEx)[1];
     }
 
@@ -77,11 +76,11 @@ export default class SwapiService {
             name: ship.name,
             model: ship.model,
             manufacturer: ship.manufacturer,
-            costInCredits: ship.costInCredits,
+            costInCredits: ship.cost_in_credits,
             length: ship.length,
             crew: ship.crew,
             passengers: ship.passengers,
-            cargoCapacity: ship.cargoCapacity
+            cargoCapacity: ship.cargo_capacity
         }
     }
 
