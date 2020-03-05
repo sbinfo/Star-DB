@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import './item-details.css';
 import SwapiService from "../../services/swapi-service";
 import Spinner from "../spinner";
-import ErrorGenerator from "../error-generator/error-generator";
 
 const Record = ({ item, field, label }) => {
     return (
@@ -11,7 +10,7 @@ const Record = ({ item, field, label }) => {
             <span>{item[field]}</span>
         </li>
     );
-}
+};
 
 export {
     Record
@@ -46,16 +45,20 @@ class ItemDetails extends Component {
                     item,
                     loading: false,
                     image: getImageUrl(item),
-                })
-            })
-    }
+                });
+            });
+    };
 
     componentDidUpdate(prevProps) {
-        if (this.props.id !== prevProps.id) {
+        
+        if (this.props.itemId !== prevProps.itemId ||
+            this.props.getData !== prevProps.getData ||
+            this.props.getImageUrl !== prevProps.getImageUrl ) {
             this.setState({ loading: true })
             this.updatePerson();
         }
-    }
+        
+    };
 
 
     render() {
@@ -89,10 +92,8 @@ class ItemDetails extends Component {
 
                     </ul>
                 </div>
-
-                <ErrorGenerator />
             </div>
-        )
+        );
     }
 }
 
