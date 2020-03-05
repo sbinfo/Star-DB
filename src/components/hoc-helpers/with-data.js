@@ -40,15 +40,16 @@ const withData = (View) => {
 
         render() {
 
-            const { data , loading, error } = this.state;
+            const { data , loading, error} = this.state;
 
-            if (loading) {
+            if (!data) {
                 return <Spinner />
             }
 
             if(error) {
                 return <ErrorIndicator />
             }
+
 
             return (
                     <View {...this.props} data={data} />
