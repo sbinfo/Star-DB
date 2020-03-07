@@ -6,6 +6,19 @@ import ErrorIndicator from "../error-indicator";
 
 
 export default class RandomPlanet extends Component {
+
+    static propTypes = {
+        updateInterval: (props, propName, componentName) => {
+            const value  = props[propName];
+
+            if(typeof value === 'number' && !isNaN(value)) {
+                return null;
+            }
+
+            return new TypeError('Error');
+        }
+    }
+
     swapi_service = new SwapiService();
 
     state = {
@@ -16,7 +29,7 @@ export default class RandomPlanet extends Component {
 
     componentDidMount() {
         this.updatePlanet();
-        this.interval = setInterval(this.updatePlanet, 2000);
+        this.interval = setInterval(this.updatePlanet, 4000);
     }
 
     componentWillUnmount() {
@@ -39,6 +52,7 @@ export default class RandomPlanet extends Component {
 
     updatePlanet = () => {
         const id = Math.floor(Math.random() * 20) + 2;
+
         this.swapi_service
             .getPlanet(id)
             .then(this.onPlanetLoaded)
@@ -66,6 +80,7 @@ export default class RandomPlanet extends Component {
         );
     }
 }
+
 
 const PlanetView = ({ planet }) => {
 

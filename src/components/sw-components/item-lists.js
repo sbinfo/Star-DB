@@ -5,7 +5,7 @@ import { withData, withSwapiService } from '../hoc-helpers';
 
 // Функция которая на любой указанный компонент (Wrapper),
 // устанавливает указанную child-функцию (fn)
-const withChildFunction = (Wrapped, fn) => {
+const withChildFunction = (fn) => (Wrapped) => {
     return (props) => {
         return (
             <Wrapped {...props} >
@@ -24,10 +24,9 @@ function mapPersonToProps(swapiService) {
     }
 }
 
-const PersonList = withSwapiService(
-    withData(withChildFunction( ItemList, renderName)),
-    mapPersonToProps
-);
+const PersonList = withSwapiService(mapPersonToProps)(
+                     withData(
+                         withChildFunction( renderName )( ItemList )));
 
 function mapPlanetToProps(swapiService) {
     return {
@@ -35,10 +34,8 @@ function mapPlanetToProps(swapiService) {
     }
 }
 
-const PlanetList = withSwapiService(
-    withData(withChildFunction(ItemList,renderName)),
-    mapPlanetToProps
-)
+const PlanetList = withSwapiService(mapPlanetToProps)(
+                withData(withChildFunction(renderName)(ItemList)));
 
 function mapStarshipToProps(swapiService) {
     return {
@@ -46,10 +43,8 @@ function mapStarshipToProps(swapiService) {
     }
 }
 
-const StarshipList = withSwapiService(
-    withData(withChildFunction(ItemList, renderStarshipDetails )),
-    mapStarshipToProps
-)
+const StarshipList = withSwapiService(mapStarshipToProps)(
+    withData(withChildFunction(renderStarshipDetails)(ItemList)));
 
 export {
     PersonList,

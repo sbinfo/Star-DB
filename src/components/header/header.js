@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from 'react-router-dom';
 import './header.css';
 
 const Header = ({ onServiceChange }) => {
@@ -12,13 +12,16 @@ const Header = ({ onServiceChange }) => {
             </h3>
             <ul className="d-flex">
                 <li>
-                    <a href="#">People</a>
+                    <Link to="/">Home</Link>
                 </li>
                 <li>
-                    <a href="#">Planets</a>
+                    <Link to="/people">People</Link>
                 </li>
                 <li>
-                    <a href="#">Starships</a>
+                <Link to="/planets">planets</Link>
+                </li>
+                <li>
+                    <Link to="/starships">Starships</Link>
                 </li>
             </ul>
 

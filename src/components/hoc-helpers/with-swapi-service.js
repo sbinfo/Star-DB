@@ -2,7 +2,7 @@ import React from 'react';
 import { SwapiServiceConsumer } from '../swapi-service-context';
 import ErrorBoundry from '../error-boundry';
 
-const withSwapiService = (Wrapped, mapMToP) => {
+const withSwapiService = ( mapMToP ) => ( Wrapped ) => {
     
     return (props) => {
         return (<SwapiServiceConsumer>
